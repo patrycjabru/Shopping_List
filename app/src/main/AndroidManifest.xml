@@ -19,6 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddItem"
+            android:label="@string/activity_addItem"
+            android:parentActivityName=".ShoppingList">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shoppinglist.shoppinglist.ShoppingList">
+            </meta-data>
+        </activity>
     </application>
 
 </manifest>
