@@ -1,5 +1,6 @@
 package com.shoppinglist.shoppinglist;
 
+import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,8 +23,10 @@ public class AddItem extends AppCompatActivity {
     }
 
     public void onAddItem(View view) {
-        String text = textField.getText().toString();
-        NavUtils.navigateUpFromSameTask(this);
-        // Add item to database, close window
+        String newItemName = textField.getText().toString();
+        Intent intent = new Intent();
+        intent.putExtra("someValue", newItemName);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

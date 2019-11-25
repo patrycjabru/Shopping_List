@@ -3,7 +3,6 @@ package com.shoppinglist.shoppinglist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class ShoppingList extends AppCompatActivity {
-
+    DatabaseHelper myDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,12 +22,11 @@ public class ShoppingList extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", new AddButtonListener()).show();
                         Intent intent = new Intent(ShoppingList.this, AddItem.class);
-                        startActivity(intent);
+                        startActivityForResult(intent, 1);
             }
         });
+        myDb = new DatabaseHelper(this);
     }
 
     @Override
@@ -51,5 +49,12 @@ public class ShoppingList extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        // Collect data from the intent and use it
+        String newItemName = data.getDataString();
+        myDb.insertData(newItemName);
+
     }
 }
