@@ -19,21 +19,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " ("+COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+ COL_2 +" TEXT, "+COL_3+" INEGER)");
+        String query = "CREATE TABLE " + TABLE_NAME + " ("+COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+ COL_2 +" TEXT, "+COL_3+" INEGER)";
+        db.execSQL(query);
+        System.out.println("onCreate: "+query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
+        String query = "DROP TABLE IF EXISTS "+TABLE_NAME;
+        db.execSQL(query);
+        System.out.println("onUpgrade: "+query);
         onCreate(db);
     }
 
     public boolean insertData(String itemName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        System.out.println("Inserting data for item "+itemName);
         contentValues.put(COL_2, itemName);
         //TODO Add API call to get number of results
         long result = db.insert(TABLE_NAME,null,contentValues);
+        System.out.println("Inserting row result: "+result);
         if (result == -1)
             return  false;
         return  true;

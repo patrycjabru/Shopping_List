@@ -5,4 +5,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="activity_addItem">AddItem</string>
+    <string name="title_shoppingitem_list">ShoppingItems</string>
+    <string name="title_shoppingitem_detail">ShoppingItem Detail</string>
 </resources>

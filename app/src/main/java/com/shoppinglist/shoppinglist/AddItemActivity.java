@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class AddItem extends AppCompatActivity {
+public class AddItemActivity extends AppCompatActivity {
 
     Button addButton;
     EditText textField;
@@ -24,8 +24,9 @@ public class AddItem extends AppCompatActivity {
 
     public void onAddItem(View view) {
         String newItemName = textField.getText().toString();
+        System.out.println("Read data from input box: "+newItemName);
         Intent intent = new Intent();
-        intent.putExtra("someValue", newItemName);
+        intent.putExtra("itemName", newItemName);
         setResult(RESULT_OK, intent);
         finish();
     }
