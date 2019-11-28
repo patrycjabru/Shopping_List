@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.shoppinglist.shoppinglist.dummy.CellContent;
-
 /**
  * A fragment representing a single ShoppingItem detail screen.
  * This fragment is either contained in a {@link ShoppingItemListActivity}

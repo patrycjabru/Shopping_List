@@ -1,4 +1,4 @@
-package com.shoppinglist.shoppinglist.dummy;
+package com.shoppinglist.shoppinglist;
 
 import android.database.Cursor;
 

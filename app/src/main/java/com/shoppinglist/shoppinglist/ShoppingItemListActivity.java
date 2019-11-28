@@ -11,13 +11,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-
-import com.shoppinglist.shoppinglist.dummy.CellContent;
 
 import java.util.List;
 
@@ -51,8 +48,6 @@ public class ShoppingItemListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 Intent intent = new Intent(ShoppingItemListActivity.this, AddItemActivity.class);
                 startActivityForResult(intent, 1);
             }
