@@ -51,6 +51,10 @@ public class CellContent {
         return builder.toString();
     }
 
+    public static void removeItem(Integer id) {
+        ITEM_MAP.remove(id.toString());
+    }
+
     /**
      * A dummy item representing a piece of name.
      */

@@ -50,4 +50,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return result;
     }
+
+    public boolean removeData(Integer id) {
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        System.out.println("Removing data for item "+id);
+
+        boolean result =  db.delete(TABLE_NAME, COL_1 + "=" + id, null) > 0;
+
+        if (result) {
+            CellContent.removeItem(id);
+        }
+
+        return result;
+    }
 }
