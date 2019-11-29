@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class AddItemActivity extends AppCompatActivity {
-
+    DatabaseHelper db;
     Button addButton;
     EditText textField;
 
@@ -18,6 +18,8 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+        db = new DatabaseHelper(this);
+
         addButton = findViewById(R.id.addButton);
         textField = findViewById(R.id.textField);
     }
@@ -25,9 +27,7 @@ public class AddItemActivity extends AppCompatActivity {
     public void onAddItem(View view) {
         String newItemName = textField.getText().toString();
         System.out.println("Read data from input box: "+newItemName);
-        Intent intent = new Intent();
-        intent.putExtra("itemName", newItemName);
-        setResult(RESULT_OK, intent);
-        finish();
+        db.insertData(newItemName);
+        navigateUpTo(new Intent(this, ShoppingItemListActivity.class));
     }
 }

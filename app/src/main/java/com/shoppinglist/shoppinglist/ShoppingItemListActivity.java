@@ -52,11 +52,6 @@ public class ShoppingItemListActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-        // Show the Up button in the action bar.
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
         if (findViewById(R.id.shoppingitem_detail_container) != null) {
             // The detail container view will be present only in the
@@ -92,15 +87,6 @@ public class ShoppingItemListActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         adapter = new SimpleItemRecyclerViewAdapter(this, CellContent.getItems(db), mTwoPane);
         recyclerView.setAdapter(adapter);
-    }
-
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Collect data from the intent and use it
-        String newItemName = data.getStringExtra("itemName");
-        System.out.println("AddItemActivity returned object "+newItemName);
-        db.insertData(newItemName);
-        adapter.notifyDataSetChanged();
     }
 
     public static class SimpleItemRecyclerViewAdapter

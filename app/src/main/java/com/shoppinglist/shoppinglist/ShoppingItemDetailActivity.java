@@ -73,9 +73,10 @@ public class ShoppingItemDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, ShoppingItemListActivity.class));
+            finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

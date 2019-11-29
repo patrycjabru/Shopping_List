@@ -17,27 +17,25 @@ import java.util.Map;
  */
 public class CellContent {
 
-
-    public static final List<CellItem> ITEMS = new ArrayList<CellItem>();
-
     public static final Map<String, CellItem> ITEM_MAP = new HashMap<String, CellItem>();
 
     private static void getItemsFromDatabase(DatabaseHelper db) {
+
+    }
+
+    public static List<CellItem> getItems(DatabaseHelper db) {
+        List<CellItem> items = new ArrayList<CellItem>();
         Cursor cursor = db.getAllData();
+
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             String id = cursor.getString(0);
             String name = cursor.getString(1);
             System.out.println("Getting items from database... "+id+name);
             CellItem cellItem = new CellItem(id, name, makeDetails(1));
-            ITEMS.add(cellItem);
+            items.add(cellItem);
             ITEM_MAP.put(id, cellItem);
         }
-    }
-
-    public static List<CellItem> getItems(DatabaseHelper db) {
-
-        getItemsFromDatabase(db);
-        return ITEMS;
+        return items;
     }
 
     private static CellItem createDummyItem(int position) {
