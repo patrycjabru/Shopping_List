@@ -45,8 +45,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-        return result;
+
+        return db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
     }
 
     public boolean removeData(Integer id) {
@@ -71,5 +71,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_3, numberOfItems);
 
         return  db.update(TABLE_NAME, contentValues, COL_1 + "=" + id, null) > 0;
+    }
+
+    public Cursor getById(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COL_1 + " = " + id, null);
     }
 }

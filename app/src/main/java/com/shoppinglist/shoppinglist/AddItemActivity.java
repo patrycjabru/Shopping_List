@@ -64,6 +64,7 @@ public class AddItemActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.err.println("fetch error");
                 System.err.println(error);
             }
         });

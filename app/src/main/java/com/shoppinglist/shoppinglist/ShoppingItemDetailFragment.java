@@ -27,6 +27,8 @@ public class ShoppingItemDetailFragment extends Fragment {
      */
     private CellContent.CellItem mItem;
 
+    private DatabaseHelper db;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -38,11 +40,13 @@ public class ShoppingItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        db = new DatabaseHelper(getContext());
+
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy name specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load name from a name provider.
-            mItem = CellContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = CellContent.getById(db, getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

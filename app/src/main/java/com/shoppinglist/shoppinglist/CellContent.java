@@ -19,10 +19,6 @@ public class CellContent {
 
     public static final Map<String, CellItem> ITEM_MAP = new HashMap<String, CellItem>();
 
-    private static void getItemsFromDatabase(DatabaseHelper db) {
-
-    }
-
     public static List<CellItem> getItems(DatabaseHelper db) {
         List<CellItem> items = new ArrayList<CellItem>();
         Cursor cursor = db.getAllData();
@@ -30,25 +26,31 @@ public class CellContent {
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             String id = cursor.getString(0);
             String name = cursor.getString(1);
-            System.out.println("Getting items from database... "+id+name);
-            CellItem cellItem = new CellItem(id, name, makeDetails(1));
+            String numberOfItems = cursor.getString(2);
+
+            System.out.println("Getting items from database... "+id + " " +name);
+            CellItem cellItem = new CellItem(id, name, makeDetails(id, numberOfItems));
+
             items.add(cellItem);
             ITEM_MAP.put(id, cellItem);
         }
         return items;
     }
 
-    private static CellItem createDummyItem(int position) {
-        return new CellItem(String.valueOf(position), "Item " + position, makeDetails(position));
+    public static CellItem getById(DatabaseHelper db, String id) {
+        List<CellItem> items = new ArrayList<CellItem>();
+        Cursor cursor = db.getById(id);
+
+        cursor.moveToFirst();
+        String name = cursor.getString(1);
+        String numberOfItems = cursor.getString(2);
+
+        System.out.println("Getting item from database... "+id + " " +name);
+        return new CellItem(id, name, makeDetails(id, numberOfItems));
     }
 
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
+    private static String makeDetails(String position, String numberOfItems) {
+        return "Details about Item: " + position + "\nNumber of items: " + numberOfItems;
     }
 
     public static void removeItem(Integer id) {
