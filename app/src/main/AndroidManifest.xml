@@ -32,6 +32,7 @@
             android:name=".ShoppingItemDetailActivity"
             android:label="@string/title_shoppingitem_detail"
             android:parentActivityName=".ShoppingItemListActivity"
+            android:configChanges="orientation"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
