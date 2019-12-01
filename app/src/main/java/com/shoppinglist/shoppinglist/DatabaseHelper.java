@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String itemName) {
+    public long insertData(String itemName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         System.out.println("Inserting data for item "+itemName);
@@ -40,9 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //TODO Add API call to get number of results
         long result = db.insert(TABLE_NAME,null,contentValues);
         System.out.println("Inserting row result: "+result);
-        if (result == -1)
-            return  false;
-        return  true;
+        return result;
     }
 
     public Cursor getAllData() {
@@ -52,8 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean removeData(Integer id) {
-
-
         SQLiteDatabase db = this.getWritableDatabase();
 
         System.out.println("Removing data for item "+id);
@@ -65,5 +61,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return result;
+    }
+
+    public boolean updateNumberOfItems(long id, Integer numberOfItems) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        System.out.println("Updating number of items for item "+id);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_3, numberOfItems);
+
+        return  db.update(TABLE_NAME, contentValues, COL_1 + "=" + id, null) > 0;
     }
 }

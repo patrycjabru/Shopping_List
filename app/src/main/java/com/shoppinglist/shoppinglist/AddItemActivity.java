@@ -7,6 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 public class AddItemActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -27,7 +38,39 @@ public class AddItemActivity extends AppCompatActivity {
     public void onAddItem(View view) {
         String newItemName = textField.getText().toString();
         System.out.println("Read data from input box: "+newItemName);
-        db.insertData(newItemName);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = null;
+
+        try {
+            url = "http://192.168.1.32:3000/get-search-count?query="+ URLDecoder.decode(newItemName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        final long id = db.insertData(newItemName);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Integer result = Integer.parseInt(response);
+                        System.out.println("response is " + result);
+
+                        db.updateNumberOfItems(id, result);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.err.println(error);
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
         navigateUpTo(new Intent(this, ShoppingItemListActivity.class));
     }
 }
