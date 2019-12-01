@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shoppinglist.shoppinglist">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -46,6 +45,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shoppinglist.shoppinglist.ShoppingItemListActivity"></meta-data>
         </activity>
+        <receiver android:name=".MyBroadcastReceiver"  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
