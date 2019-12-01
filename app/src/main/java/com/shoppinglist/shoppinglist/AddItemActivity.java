@@ -41,17 +41,23 @@ public class AddItemActivity extends AppCompatActivity {
         String newItemName = textField.getText().toString();
         System.out.println("Read data from input box: "+newItemName);
 
+        makeAPICall(newItemName);
+
+        navigateUpTo(new Intent(this, ShoppingItemListActivity.class));
+    }
+
+    public void makeAPICall(String query) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = null;
 
         try {
-            url = "http://" + IP_ADDR + ":3000/get-search-count?query="+ URLDecoder.decode(newItemName, "UTF-8");
+            url = "http://" + IP_ADDR + ":3000/get-search-count?query="+ URLDecoder.decode(query, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        final long id = db.insertData(newItemName);
+        final long id = db.insertData(query);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -73,7 +79,5 @@ public class AddItemActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-
-        navigateUpTo(new Intent(this, ShoppingItemListActivity.class));
     }
 }
