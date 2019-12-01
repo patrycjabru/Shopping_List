@@ -20,6 +20,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 public class AddItemActivity extends AppCompatActivity {
+    private final String IP_ADDR = "192.168.1.32";
+
     DatabaseHelper db;
     Button addButton;
     EditText textField;
@@ -44,7 +46,7 @@ public class AddItemActivity extends AppCompatActivity {
         String url = null;
 
         try {
-            url = "http://192.168.1.32:3000/get-search-count?query="+ URLDecoder.decode(newItemName, "UTF-8");
+            url = "http://" + IP_ADDR + ":3000/get-search-count?query="+ URLDecoder.decode(newItemName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
