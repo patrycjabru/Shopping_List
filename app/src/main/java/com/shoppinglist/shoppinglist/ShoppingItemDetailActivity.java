@@ -1,10 +1,9 @@
 package com.shoppinglist.shoppinglist;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -62,11 +61,21 @@ public class ShoppingItemDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(ShoppingItemDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(ShoppingItemDetailFragment.ARG_ITEM_ID));
-            ShoppingItemDetailFragment fragment = new ShoppingItemDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.shoppingitem_detail_container, fragment)
-                    .commit();
+
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                ShoppingItemDetailFragment fragment = new ShoppingItemDetailFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.shoppingitem_detail_container, fragment)
+                        .commit();
+            } else {
+                ShoppingItemDetailFragmentLandscape fragment = new ShoppingItemDetailFragmentLandscape();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.shoppingitem_detail_container, fragment)
+                        .commit();
+            }
         }
     }
 

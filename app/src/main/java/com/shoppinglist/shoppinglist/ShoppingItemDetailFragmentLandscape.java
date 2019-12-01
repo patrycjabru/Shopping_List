@@ -1,21 +1,17 @@
 package com.shoppinglist.shoppinglist;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * A fragment representing a single ShoppingItem detail screen.
- * This fragment is either contained in a {@link ShoppingItemListActivity}
- * in two-pane mode (on tablets) or a {@link ShoppingItemDetailActivity}
- * on handsets.
- */
-public class ShoppingItemDetailFragment extends Fragment {
+
+
+public class ShoppingItemDetailFragmentLandscape extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -31,7 +27,7 @@ public class ShoppingItemDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ShoppingItemDetailFragment() {
+    public ShoppingItemDetailFragmentLandscape() {
     }
 
     @Override
@@ -55,11 +51,11 @@ public class ShoppingItemDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_shoppingitem_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_shoppingitem_detail_landscape, container, false);
 
         // Show the dummy name as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.shoppingitem_detail)).setText(mItem.details);
+            ((TextView) rootView.findViewById(R.id.shoppingitem_detail_landscape_text)).setText(mItem.details + "Horizontal");
         }
 
         return rootView;
