@@ -1,12 +1,15 @@
 package com.shoppinglist.shoppinglist;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -64,7 +67,18 @@ public class ShoppingItemDetailFragment extends Fragment {
         // Show the dummy name as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.shoppingitem_detail)).setText(mItem.details);
+            Button webButton = rootView.findViewById(R.id.webButton);
+            webButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String itemNameUri = mItem.name.replace(" ", "%20");
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://allegro.pl/listing?string=" + itemNameUri));
+                    startActivity(browserIntent);
+                }
+            });
         }
+
+
 
         return rootView;
     }
