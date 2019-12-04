@@ -22,7 +22,6 @@ public class Product {
         this.id = id;
     }
 
-
     public String getProductName() {
         return productName;
     }
