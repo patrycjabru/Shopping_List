@@ -29,7 +29,7 @@ public class CellContent {
             String numberOfItems = cursor.getString(2);
 
             System.out.println("Getting items from database... "+id + " " +name);
-            CellItem cellItem = new CellItem(id, name, makeDetails(id, numberOfItems));
+            CellItem cellItem = new CellItem(id, name, numberOfItems);
 
             items.add(cellItem);
             ITEM_MAP.put(id, cellItem);
@@ -46,11 +46,7 @@ public class CellContent {
         String numberOfItems = cursor.getString(2);
 
         System.out.println("Getting item from database... "+id + " " +name);
-        return new CellItem(id, name, makeDetails(id, numberOfItems));
-    }
-
-    private static String makeDetails(String position, String numberOfItems) {
-        return "Details about Item: " + position + "\nNumber of items: " + numberOfItems;
+        return new CellItem(id, name, numberOfItems);
     }
 
     public static void removeItem(Integer id) {

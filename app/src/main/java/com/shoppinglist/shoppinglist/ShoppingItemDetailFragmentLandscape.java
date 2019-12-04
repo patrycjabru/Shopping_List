@@ -47,12 +47,6 @@ public class ShoppingItemDetailFragmentLandscape extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load name from a name provider.
             mItem = CellContent.getById(db, getArguments().getString(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.name);
-            }
         }
     }
 
@@ -63,7 +57,9 @@ public class ShoppingItemDetailFragmentLandscape extends Fragment {
 
         // Show the dummy name as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.shoppingitem_detail_landscape_text)).setText(mItem.details + "\nHorizontal view");
+            String numberOfItems = mItem.details == null ? "loading..." : mItem.details;
+            String itemDetails = "HORIZONTAL\nNumber of items: " + numberOfItems;
+            ((TextView) rootView.findViewById(R.id.shoppingitem_detail_landscape_text)).setText(itemDetails);
             Button webButton = rootView.findViewById(R.id.webButtonLandscape);
             webButton.setOnClickListener(new View.OnClickListener() {
                 @Override

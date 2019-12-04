@@ -1,8 +1,10 @@
 package com.shoppinglist.shoppinglist;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +25,8 @@ public class ShoppingItemDetailActivity extends AppCompatActivity {
     DatabaseHelper db;
     Bundle arguments;
 
+    public static final String ARG_ITEM_NAME = "item_name";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,12 @@ public class ShoppingItemDetailActivity extends AppCompatActivity {
                 navigateUpTo(new Intent(getApplicationContext(), ShoppingItemListActivity.class));
             }
         });
+
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        String itemName = getIntent().getStringExtra(ARG_ITEM_NAME);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(itemName);
+        }
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
