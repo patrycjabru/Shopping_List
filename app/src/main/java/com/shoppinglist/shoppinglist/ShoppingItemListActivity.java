@@ -83,7 +83,7 @@ public class ShoppingItemListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) throws SQLException {
-        adapter = new SimpleItemRecyclerViewAdapter(this, CellContent.getItems(db), mTwoPane);
+        adapter = new SimpleItemRecyclerViewAdapter(this, db.getAll(Product.class), mTwoPane);
         recyclerView.setAdapter(adapter);
     }
 
@@ -91,16 +91,16 @@ public class ShoppingItemListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final ShoppingItemListActivity mParentActivity;
-        private final List<CellContent.CellItem> mValues;
+        private final List<Product> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CellContent.CellItem item = (CellContent.CellItem) view.getTag();
+                Product item = (Product) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(ShoppingItemDetailFragment.ARG_ITEM_ID, item.id);
-                    arguments.putString(ShoppingItemDetailActivity.ARG_ITEM_NAME, item.name);
+                    arguments.putString(ShoppingItemDetailFragment.ARG_ITEM_ID, String.valueOf(item.getId()));
+                    arguments.putString(ShoppingItemDetailActivity.ARG_ITEM_NAME, item.getProductName());
                     ShoppingItemDetailFragment fragment = new ShoppingItemDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -109,17 +109,18 @@ public class ShoppingItemListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ShoppingItemDetailActivity.class);
-                    intent.putExtra(ShoppingItemDetailFragment.ARG_ITEM_ID, item.id);
-                    intent.putExtra(ShoppingItemDetailActivity.ARG_ITEM_NAME, item.name);
+                    intent.putExtra(ShoppingItemDetailFragment.ARG_ITEM_ID, String.valueOf(item.getId()));
+                    intent.putExtra(ShoppingItemDetailActivity.ARG_ITEM_NAME, item.getProductName());
                     context.startActivity(intent);
                 }
             }
         };
 
         SimpleItemRecyclerViewAdapter(ShoppingItemListActivity parent,
-                                      List<CellContent.CellItem> items,
+                                      List<Product> items,
                                       boolean twoPane) {
             mValues = items;
+            System.out.println("####" + mValues);
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
@@ -133,8 +134,8 @@ public class ShoppingItemListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).name);
+            holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
+            holder.mContentView.setText(mValues.get(position).getProductName());
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);

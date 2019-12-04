@@ -31,7 +31,7 @@ public class ShoppingItemDetailFragment extends Fragment {
     /**
      * The dummy name this fragment is presenting.
      */
-    private CellContent.CellItem mItem;
+    private Product mItem;
 
     private DatabaseHelper db;
 
@@ -53,7 +53,7 @@ public class ShoppingItemDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load name from a name provider.
             try {
-                mItem = CellContent.getById(db, Integer.valueOf(Objects.requireNonNull(getArguments().getString(ARG_ITEM_ID))));
+                mItem = db.getById(Product.class, Objects.requireNonNull(getArguments().getString(ARG_ITEM_ID)));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -67,14 +67,14 @@ public class ShoppingItemDetailFragment extends Fragment {
 
         // Show the dummy name as text in a TextView.
         if (mItem != null) {
-            String numberOfItems = mItem.details == null ? "loading..." : mItem.details;
+            String numberOfItems = mItem.getNumberOfItems() == null ? "loading..." : mItem.getNumberOfItems();
             String itemDetails = "Number of items: " + numberOfItems;
             ((TextView) rootView.findViewById(R.id.shoppingitem_detail)).setText(itemDetails);
             Button webButton = rootView.findViewById(R.id.webButton);
             webButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String itemNameUri = mItem.name.replace(" ", "%20");
+                    String itemNameUri = mItem.getProductName().replace(" ", "%20");
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://allegro.pl/listing?string=" + itemNameUri));
                     startActivity(browserIntent);
                 }
