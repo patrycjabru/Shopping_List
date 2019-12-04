@@ -72,6 +72,10 @@ public class ShoppingItemDetailActivity extends AppCompatActivity {
                         .addToBackStack(null)
                         .commit();
             }
+        } else {
+            arguments = savedInstanceState;
+            arguments.putString(ShoppingItemDetailFragment.ARG_ITEM_ID,
+                    getIntent().getStringExtra(ShoppingItemDetailFragment.ARG_ITEM_ID));
         }
     }
 

@@ -60,7 +60,7 @@ public class ShoppingItemDetailFragmentLandscape extends Fragment {
 
         // Show the dummy name as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.shoppingitem_detail_landscape_text)).setText(mItem.details + "Horizontal");
+            ((TextView) rootView.findViewById(R.id.shoppingitem_detail_landscape_text)).setText(mItem.details + "\nHorizontal view");
         }
 
         return rootView;
