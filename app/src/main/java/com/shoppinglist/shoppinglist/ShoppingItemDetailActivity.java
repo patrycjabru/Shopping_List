@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import java.sql.SQLException;
+
 /**
  * An activity representing a single ShoppingItem detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
@@ -42,7 +44,11 @@ public class ShoppingItemDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String str = getIntent().getStringExtra(ShoppingItemDetailFragment.ARG_ITEM_ID);
 
-                db.removeData(Integer.parseInt(str));
+                try {
+                    db.deleteById(Product.class, Integer.parseInt(str));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 navigateUpTo(new Intent(getApplicationContext(), ShoppingItemListActivity.class));
             }
         });

@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 
 public class AddItemActivity extends AppCompatActivity {
     private final String IP_ADDR = "192.168.1.32";
@@ -37,7 +38,7 @@ public class AddItemActivity extends AppCompatActivity {
         textField = findViewById(R.id.textField);
     }
 
-    public void onAddItem(View view) {
+    public void onAddItem(View view) throws SQLException {
         String newItemName = textField.getText().toString();
         System.out.println("Read data from input box: "+newItemName);
 
@@ -46,7 +47,7 @@ public class AddItemActivity extends AppCompatActivity {
         navigateUpTo(new Intent(this, ShoppingItemListActivity.class));
     }
 
-    public void makeAPICall(String query) {
+    public void makeAPICall(String query) throws SQLException {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = null;
@@ -56,8 +57,9 @@ public class AddItemActivity extends AppCompatActivity {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-        final long id = db.insertData(query);
+        final Product product = new Product();
+        product.setProductName(query);
+        db.createOrUpdate(product);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -66,8 +68,12 @@ public class AddItemActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Integer result = Integer.parseInt(response);
                         System.out.println("response is " + result);
-
-                        db.updateNumberOfItems(id, result);
+                        product.setNumberOfItems(response);
+                        try {
+                            db.createOrUpdate(product);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

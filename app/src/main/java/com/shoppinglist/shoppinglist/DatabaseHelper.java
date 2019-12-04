@@ -6,76 +6,57 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "shopping_list.db";
-    public static final String TABLE_NAME = "saved_items";
-    public static final String COL_1 = "ID";
-    public static final String COL_2 = "ITEM_NAME";
-    public static final String COL_3 = "NUMBER_OF_RESULTS";
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
+import java.sql.SQLException;
+import java.util.List;
+
+public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+
+    public static final String DATABASE_NAME = "product_list.db";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        getWritableDatabase();
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + TABLE_NAME + " ("+COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+ COL_2 +" TEXT, "+COL_3+" INEGER)";
-        db.execSQL(query);
-        System.out.println("onCreate: "+query);
-    }
+    public void onCreate(SQLiteDatabase db, ConnectionSource cs) {
+        try {
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String query = "DROP TABLE IF EXISTS "+TABLE_NAME;
-        db.execSQL(query);
-        System.out.println("onUpgrade: "+query);
-        onCreate(db);
-    }
+            // Create Table with given table name with columnName
+            TableUtils.createTable(cs, Product.class);
 
-    public long insertData(String itemName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        System.out.println("Inserting data for item "+itemName);
-        contentValues.put(COL_2, itemName);
-        //TODO Add API call to get number of results
-        long result = db.insert(TABLE_NAME,null,contentValues);
-        System.out.println("Inserting row result: "+result);
-        return result;
-    }
-
-    public Cursor getAllData() {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-    }
-
-    public boolean removeData(Integer id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        System.out.println("Removing data for item "+id);
-
-        boolean result =  db.delete(TABLE_NAME, COL_1 + "=" + id, null) > 0;
-
-        if (result) {
-            CellContent.removeItem(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-
-        return result;
     }
 
-    public boolean updateNumberOfItems(long id, Integer numberOfItems) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    @Override
+    public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 
-        System.out.println("Updating number of items for item "+id);
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_3, numberOfItems);
-
-        return  db.update(TABLE_NAME, contentValues, COL_1 + "=" + id, null) > 0;
     }
 
-    public Cursor getById(String id) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public List<Product> getAll(Class clazz) throws SQLException {
+        Dao<Product, ?> dao = getDao(clazz);
+        return dao.queryForAll();
+    }
 
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COL_1 + " = " + id, null);
+    public  Product getById(Class clazz, Object aId) throws SQLException {
+        Dao<Product, Object> dao = getDao(clazz);
+        return dao.queryForId(aId);
+    }
+
+    public Dao.CreateOrUpdateStatus createOrUpdate(Product obj) throws SQLException {
+        Dao<Product, ?> dao = (Dao<Product, ?>) getDao(obj.getClass());
+        return dao.createOrUpdate(obj);
+    }
+
+    public  int deleteById(Class clazz, Object aId) throws SQLException {
+        Dao<Product, Object> dao = getDao(clazz);
+        return dao.deleteById(aId);
     }
 }

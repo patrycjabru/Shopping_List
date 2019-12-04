@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.sql.SQLException;
+import java.util.Objects;
+
 /**
  * A fragment representing a single ShoppingItem detail screen.
  * This fragment is either contained in a {@link ShoppingItemListActivity}
@@ -49,7 +52,11 @@ public class ShoppingItemDetailFragment extends Fragment {
             // Load the dummy name specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load name from a name provider.
-            mItem = CellContent.getById(db, getArguments().getString(ARG_ITEM_ID));
+            try {
+                mItem = CellContent.getById(db, Integer.valueOf(Objects.requireNonNull(getArguments().getString(ARG_ITEM_ID))));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

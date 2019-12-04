@@ -16,6 +16,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -64,7 +65,11 @@ public class ShoppingItemListActivity extends AppCompatActivity {
 
         View recyclerView = findViewById(R.id.shoppingitem_list);
         assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        try {
+            setupRecyclerView((RecyclerView) recyclerView);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -77,7 +82,7 @@ public class ShoppingItemListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) throws SQLException {
         adapter = new SimpleItemRecyclerViewAdapter(this, CellContent.getItems(db), mTwoPane);
         recyclerView.setAdapter(adapter);
     }

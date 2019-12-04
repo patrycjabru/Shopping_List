@@ -2,8 +2,10 @@ package com.shoppinglist.shoppinglist;
 
 import android.database.Cursor;
 
+import com.j256.ormlite.table.DatabaseTable;
 import com.shoppinglist.shoppinglist.DatabaseHelper;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,38 +17,36 @@ import java.util.Map;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
+
 public class CellContent {
 
     public static final Map<String, CellItem> ITEM_MAP = new HashMap<String, CellItem>();
 
-    public static List<CellItem> getItems(DatabaseHelper db) {
+    public static List<CellItem> getItems(DatabaseHelper db) throws SQLException {
         List<CellItem> items = new ArrayList<CellItem>();
-        Cursor cursor = db.getAllData();
+        List<Product> products = db.getAll(Product.class);
 
-        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            String id = cursor.getString(0);
-            String name = cursor.getString(1);
-            String numberOfItems = cursor.getString(2);
+        for(Product product : products) {
+            Integer id = product.getId();
+            String name = product.getProductName();
+            String numberOfItems = product.getNumberOfItems();
 
             System.out.println("Getting items from database... "+id + " " +name);
-            CellItem cellItem = new CellItem(id, name, numberOfItems);
+            CellItem cellItem = new CellItem(id.toString(), name, numberOfItems);
 
             items.add(cellItem);
-            ITEM_MAP.put(id, cellItem);
+            ITEM_MAP.put(id.toString(), cellItem);
         }
         return items;
     }
 
-    public static CellItem getById(DatabaseHelper db, String id) {
+    public static CellItem getById(DatabaseHelper db, Integer id) throws SQLException {
         List<CellItem> items = new ArrayList<CellItem>();
-        Cursor cursor = db.getById(id);
+        Product product = db.getById(Product.class, id);
 
-        cursor.moveToFirst();
-        String name = cursor.getString(1);
-        String numberOfItems = cursor.getString(2);
 
-        System.out.println("Getting item from database... "+id + " " +name);
-        return new CellItem(id, name, numberOfItems);
+        System.out.println("Getting item from database... "+id + " " +product.getProductName());
+        return new CellItem(id.toString(), product.getProductName(), product.getNumberOfItems());
     }
 
     public static void removeItem(Integer id) {
