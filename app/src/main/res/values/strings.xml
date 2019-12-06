@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">ShoppingList</string>
+    <string name="app_name">Shopping List</string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="activity_addItem">AddItem</string>
-    <string name="title_shoppingitem_list">ShoppingItems</string>
-    <string name="title_shoppingitem_detail">ShoppingItem Detail</string>
+    <string name="activity_addItem">Add Item</string>
+    <string name="title_shoppingitem_list">Shopping Items</string>
+    <string name="title_shoppingitem_detail">Shopping Item Detail</string>
 </resources>
